@@ -1,3 +1,4 @@
+import graphics.Map;
 import graphics.TileSet;
 
 import javax.imageio.ImageIO;
@@ -27,8 +28,9 @@ public class Test
         MyCanvas()
             throws Exception
         {
-            TileSet tileSet = new TileSet( "res/tileset0000_tiles.jpg", "res/tileset0000.dat" );
-            img = tileSet.getTile( 2 );
+            TileSet tileSet = new TileSet( "res/tileset0013" );
+            Map map = new Map( "res/map0003.dat", tileSet );
+            img = map.getMapImage();
         }
 
         public void paint( Graphics g )

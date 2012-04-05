@@ -12,17 +12,21 @@ import java.util.StringTokenizer;
 
 public class TileSet
 {
-    private BufferedImage img = null;
+    private BufferedImage tilesImage = null;
+
+    private BufferedImage entitiesImage = null;
 
     private Color backgroundColor;
 
     private HashMap<Integer,TileInfo> tileInfos = new HashMap<Integer,TileInfo>();
 
-    public TileSet( String imagePath, String infoPath )
+
+    public TileSet( String name )
         throws IOException
     {
-        img = ImageIO.read( new File( imagePath ) );
-        readTileInfo( infoPath );
+        tilesImage = ImageIO.read( new File( name + "_tiles.jpg" ) );
+        entitiesImage = ImageIO.read( new File( name + "_entities.jpg" ) );
+        readTileInfo( name + ".dat" );
     }
 
     private void readTileInfo( String infoPath )
@@ -47,12 +51,14 @@ public class TileSet
             tileInfo.animation = Integer.parseInt( st.nextToken() );
             tileInfo.default_layer = Integer.parseInt( st.nextToken() );
 
-            if ( /*tileInfo.animation != 1 &&*/ tileInfo.animation != 5 )
+            if ( true /*tileInfo.animation != 1 && tileInfo.animation != 5 */ )
             {
                 tileInfo.x = Integer.parseInt( st.nextToken() );
                 tileInfo.y = Integer.parseInt( st.nextToken() );
                 tileInfo.width = Integer.parseInt( st.nextToken() );
                 tileInfo.height = Integer.parseInt( st.nextToken() );
+                tileInfo.width = tileInfo.width <= 0 ? 1 : tileInfo.width;
+                tileInfo.height = tileInfo.height <= 0 ? 1 : tileInfo.height;
             }
             else
             {
@@ -74,7 +80,16 @@ public class TileSet
     public BufferedImage getTile( int id )
     {
         TileInfo tileInfo = tileInfos.get( id );
-        return img.getSubimage( tileInfo.x, tileInfo.y, tileInfo.width, tileInfo.height );
+        if ( tileInfo == null || tileInfo.width <= 0 || tileInfo.height <= 0 )
+        {
+            System.out.println( id );
+        }
+        return tilesImage.getSubimage( tileInfo.x, tileInfo.y, tileInfo.width, tileInfo.height );
+    }
+
+    public BufferedImage getTilesImage()
+    {
+        return tilesImage;
     }
 
     class TileInfo
