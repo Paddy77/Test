@@ -28,7 +28,7 @@ public class Test
             throws Exception
         {
             TileSet tileSet = new TileSet( "res/tileset0000_tiles.jpg", "res/tileset0000.dat" );
-            img = tileSet.getTile( 1 );
+            img = tileSet.getTile( 2 );
         }
 
         public void paint( Graphics g )
